@@ -16,6 +16,8 @@ export class ItemPage{
             phone : page.locator('//a[text()="Phones"]'),
             laptop : page.locator('//a[text()="Laptops"]'),
             monitor : page.locator('//a[text()="Monitors"]'),
+            btnPreveus : page.locator('#prev2'),
+            btnNext : page.locator('#next2'),
         }
         this.items = {
             item1 : page.locator('//h4[@class="card-title"]/a[@href="prod.html?idp_=1"]'),
