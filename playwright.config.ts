@@ -75,3 +75,7 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
+
+Object.assign(global, {
+  BASE_URL: 'https://www.demoblaze.com'
+})
