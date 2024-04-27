@@ -1,10 +1,11 @@
+import { test,expect } from "@playwright/test";
 import { Page,Locator } from "playwright";
+import * as faker from 'faker';
 
 export class ContactPage{
     readonly page:Page;
-    readonly form: {
-        [key: string]:Locator;
-    };
+    readonly form: {[key: string]:Locator;};
+    readonly fake: {[key: string]:string};
 
     constructor (page:Page){
         this.page = page;
@@ -12,13 +13,39 @@ export class ContactPage{
             title : page.locator('//h5[text()="New message"]'),
             inputEmail : page.locator('input[id=recipient-email]'),
             inputName : page.locator('input[id=recipient-name]'),
-            inputMessage : page.locator('input[id=message-text]'),
-            btnSend : page.locator('button[text()="Send message"]'),
+            inputMessage : page.locator('textarea[id=message-text]'),
+            btnSend : page.locator('//button[text()="Send message"]'),
             btnClose : page.locator('//button[@type="button"]/preceding-sibling::button[text()="Send message"]')
-        }
+        };
+        this.fake= {
+            fakerEmail : '',
+            fakerName : '',
+        };
     }
 
-    //example for alrets
+    async sendContact(){
+        this.fake.fakerName = faker.name.firstName();
+        this.fake.fakerEmail = faker.internet.email();
+        await this.page.waitForTimeout(2000);
+        await this.form.btnSend.isVisible();
+        await this.form.inputName.type(this.fake.fakerName);
+        await this.form.inputEmail.type(this.fake.fakerEmail);
+        await this.form.inputMessage.type("This is testing msg");
+        await this.form.btnSend.click();
+    }
+
+    async verifyContactAppear(){
+        await this.form.title.isVisible();
+        //expect (await this.form.title.isVisible()).toBe(true);
+    }
+
+    async contactAlret(){
+        const dialog = await this.page.waitForEvent('dialog', { timeout: 1000 }).catch(() => null); // Wait for dialog or timeout
+        await dialog?.accept();
+        console.log('Alert dialog appeared and accepted.');
+    }
+
+    /* example for alrets
     async directAlret(){
         const alret = new AlretsPage(this.page);
         
@@ -45,4 +72,5 @@ export class ContactPage{
             console.error('Error:', error);
         }
     }
+    */
 }

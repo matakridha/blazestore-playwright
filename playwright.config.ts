@@ -78,4 +78,6 @@ export default defineConfig({
 
 Object.assign(global, {
   BASE_URL: 'https://www.demoblaze.com'
+  
 })
+
