@@ -10,7 +10,7 @@ test.describe('Negative Testing Elements',() => {
         await page.goto(global.BASE_URL);
         await expect(page).toHaveURL(global.BASE_URL);
     })
-    test ('Register with invalid credential', async ({page}) =>{
+    test ('Sign - Register with invalid credential', async ({page}) =>{
         const header = new HeaderPage(page);
         const register = new LoginRegisterPage(page);
         await header.headerMenu.menuSign.click();
@@ -18,7 +18,7 @@ test.describe('Negative Testing Elements',() => {
         await register.registerWithNoPassword();
         await register.registerRegisteredID();
     })
-    test ('Login with invalid credential', async({page}) =>{
+    test ('Sign - Login with invalid credential', async({page}) =>{
         const header = new HeaderPage(page);
         const login = new LoginRegisterPage(page);
         await header.headerMenu.menuLogin.click();

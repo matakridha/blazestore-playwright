@@ -3,6 +3,7 @@ import { ItemPage } from '../pages/item-page';
 import { HeaderPage } from '../pages/header-page';
 import { ContactPage } from '../pages/contact-page';
 import { LoginRegisterPage } from '../pages/loginRegister-page';
+import { CartPage } from '../pages/cart-page';
 
 test.describe('Positive Testing Elements',() => {
     test.beforeEach(async ({page}) => {
@@ -10,7 +11,7 @@ test.describe('Positive Testing Elements',() => {
         await page.goto(global.BASE_URL);
         await expect(page).toHaveURL(global.BASE_URL);
     })
-    test ('verify Phone Filter', async ({page}) =>{
+    test ('Items - Verify Phone Filter', async ({page}) =>{
         const items = new ItemPage(page);
         await items.checkAllItems();
         await items.checkPhoneItems();
@@ -18,7 +19,7 @@ test.describe('Positive Testing Elements',() => {
         await items.checkLaptopItems();
         console.log("verify success");
     })
-    test ('send contact with valid data', async ({page}) =>{
+    test ('Contact - Send contact with valid data', async ({page}) =>{
         const header = new HeaderPage(page);
         const contact = new ContactPage(page);
         await header.headerMenu.menuContact.click();
@@ -27,7 +28,7 @@ test.describe('Positive Testing Elements',() => {
         await contact.contactAlret();
         console.log("send msg contact success");
     })
-    test ('register with valid credential', async ({page}) =>{
+    test ('Sign - Register with valid credential', async ({page}) =>{
         const header = new HeaderPage(page);
         const register = new LoginRegisterPage(page);
         const contact = new ContactPage(page);
@@ -37,7 +38,7 @@ test.describe('Positive Testing Elements',() => {
         await register.verifyRegister();
         console.log("register success");
     })
-    test ('login with valid credential', async ({page}) =>{
+    test ('Sign - Login with valid credential', async ({page}) =>{
         const header = new HeaderPage(page);
         const login = new LoginRegisterPage(page);
         const contact = new ContactPage(page);
@@ -46,5 +47,15 @@ test.describe('Positive Testing Elements',() => {
         await contact.contactAlret();
         await login.verifyLogin();
         console.log("login success");
+    })
+
+    test ('Cart - Add item and verify total price', async({page}) =>{
+        const header = new HeaderPage(page);
+        const item = new ItemPage(page);
+        const cart = new CartPage(page);
+        await item.addToCart2();
+        await header.headerMenu.menuCart.click();
+        await cart.verifyTotalPrice();
+        console.log("Verify success, Total item correct");        
     })
 })

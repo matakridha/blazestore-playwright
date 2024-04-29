@@ -1,4 +1,5 @@
 import { Page,Locator } from "playwright";
+import { HeaderPage } from "./header-page";
 
 export class ItemPage{
     readonly page:Page;
@@ -23,7 +24,8 @@ export class ItemPage{
             item1 : page.locator('//h4[@class="card-title"]/a[@href="prod.html?idp_=1"]'),
             item2 : page.locator('//h4[@class="card-title"]/a[@href="prod.html?idp_=2"]'),
             item3 : page.locator('//h4[@class="card-title"]/a[@href="prod.html?idp_=3"]'),
-            detailTitle : page.locator('h2[class=name]')
+            detailTitle : page.locator('h2[class=name]'),
+            btnAdd : page.locator('//a[text()="Add to cart"]')
         };
     }
 
@@ -102,4 +104,34 @@ export class ItemPage{
         if (itemFound) console.log('There is non monitor.');
         else console.log('There is non monitor.'); 
     }   
+
+    async addToCart(){
+        await this.items.item1.click();
+        await this.items.detailTitle.isVisible();
+        await this.items.btnAdd.click();
+
+        const dialog = await this.page.waitForEvent('dialog', { timeout: 1000 }).catch(() => null); // Wait for dialog or timeout
+        await dialog?.accept();
+        console.log('Alert dialog appeared and accepted.');
+    }
+
+    async addToCart2(){
+        const header = new HeaderPage(this.page);
+        const dialog = await this.page.waitForEvent('dialog', { timeout: 1000 }).catch(() => null); // Wait for dialog or timeout
+
+        await this.items.item1.click();
+        await this.items.detailTitle.isVisible();
+        await this.items.btnAdd.click();
+
+        await dialog?.accept();
+        console.log('Alert dialog appeared and accepted.');
+        await header.headerMenu.menuHome.click();
+
+        await this.items.item2.click();
+        await this.items.detailTitle.isVisible();
+        await this.items.btnAdd.click();
+
+        await dialog?.accept();
+        console.log('Alert dialog appeared and accepted.');
+    }
 }
