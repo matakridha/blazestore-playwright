@@ -4,6 +4,7 @@ import { HeaderPage } from '../pages/header-page';
 import { ContactPage } from '../pages/contact-page';
 import { LoginRegisterPage } from '../pages/loginRegister-page';
 import { CartPage } from '../pages/cart-page';
+import { PaymentPage } from '../pages/payment-page';
 
 test.describe('Positive Testing Elements',() => {
     test.beforeEach(async ({page}) => {
@@ -57,5 +58,16 @@ test.describe('Positive Testing Elements',() => {
         await header.headerMenu.menuCart.click();
         await cart.verifyTotalPrice();
         console.log("Verify success, Total item correct");        
+    })
+
+    test ('Payment - Process Payment', async({page}) =>{
+        const header = new HeaderPage(page);
+        const item = new ItemPage(page);
+        const pay = new PaymentPage(page);
+        await item.addToCart2();
+        await header.headerMenu.menuCart.click();
+        await pay.buyAnItem();
+        await pay.verifyInvoice();
+        console.log("Verify success, buying item");  
     })
 })
