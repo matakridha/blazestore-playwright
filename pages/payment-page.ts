@@ -56,4 +56,29 @@ export class PaymentPage{
         await this.invoice.txtInvoice.isVisible();
         expect (await this.invoice.txtInvoice.isVisible()).toBe(true);
     }
+
+    async invalidCheckout(){
+        await this.invoice.btnOrder.click();
+        await this.invoice.btnOk.click();
+    }
+    async invalidCheckout2(){
+        await this.invoice.btnOrder.click();
+
+        await this.payment.inputName.type("jjd@019=_923d':");
+        await this.payment.inputCountry.type("Danbooru");
+        await this.payment.inputCity.type("4+=30");
+        await this.payment.inputCC.type("a992m2");
+        await this.payment.inputMounth.type("'';:");
+        await this.payment.inputYear.type("+--`");
+
+        await this.invoice.btnOk.click();
+    }
+
+    async verifyInvoiceFailed(){
+        expect (await this.invoice.txtInvoice.isVisible()).toBe(false);
+    }
+    
+    async verifyError(){
+        expect (await this.payment.inputName.isHidden()).toBe(false);
+    }
 }

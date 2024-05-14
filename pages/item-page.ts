@@ -118,7 +118,7 @@ export class ItemPage{
     async addToCart2(){
         const header = new HeaderPage(this.page);
         const dialog = await this.page.waitForEvent('dialog', { timeout: 1000 }).catch(() => null); // Wait for dialog or timeout
-
+        await header.headerMenu.menuHome.click();
         await this.items.item1.click();
         await this.items.detailTitle.isVisible();
         await this.items.btnAdd.click();

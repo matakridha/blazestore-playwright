@@ -54,6 +54,8 @@ test.describe('Positive Testing Elements',() => {
         const header = new HeaderPage(page);
         const item = new ItemPage(page);
         const cart = new CartPage(page);
+        await item.addToCart();
+        await cart.deleteItem();
         await item.addToCart2();
         await header.headerMenu.menuCart.click();
         await cart.verifyTotalPrice();

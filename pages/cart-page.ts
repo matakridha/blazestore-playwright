@@ -9,7 +9,7 @@ export class CartPage{
     constructor (page:Page){
         this.page = page;
         this.cart = {
-
+            btnDelete : page.locator('//a[text()="Delete"]')
         };
 
     }
@@ -42,6 +42,12 @@ export class CartPage{
         } else {
             throw new Error('Sum and total are not equal.');
         }
+    }
+    
+    async deleteItem(){
+        await this.page.waitForSelector('#tbodyid');
+        await this.cart.btnDelete.click();
         
+        expect (this.cart.btnDelete.isHidden).toBe(true);
     }
 }
